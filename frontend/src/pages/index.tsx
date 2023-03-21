@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
   const { data } = useSession();
+  console.log(data);
 
   return (
     <>
@@ -13,8 +14,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>WhisperWave</h1>
-        <button onClick={() => signIn("google")}>Sign In</button>
+        {data?.user ? (
+          <button onClick={() => signOut()}>Sign In</button>
+        ) : (
+          <button onClick={() => signIn("google")}>Sign Out</button>
+        )}
+
+        {data?.user?.name}
       </main>
     </>
   );
