@@ -1,1 +1,1 @@
-# whisperwave
+# WordWave

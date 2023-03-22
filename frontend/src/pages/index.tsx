@@ -11,11 +11,22 @@ export default function Home() {
     <>
       <Head>
         <title>Create Next App</title>
-        <meta name="description" content="WhisperWave Chat Application" />
+        <meta name="description" content="WordWave Chat Application" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>{data?.user.username ? <Chat /> : <Auth />}</main>
+      <main className=" flex h-screen w-screen border border-solid border-green-500">
+        {data?.user.username ? (
+          <Chat />
+        ) : (
+          <Auth
+            session={null}
+            reloadSession={function (): Promise<void> {
+              throw new Error("Function not implemented.");
+            }}
+          />
+        )}
+      </main>
     </>
   );
 }
