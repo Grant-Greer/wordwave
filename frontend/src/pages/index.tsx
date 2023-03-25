@@ -5,7 +5,11 @@ import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { NextPageContext, NextPage } from "next";
 
 export default function Home() {
-  const { data } = useSession();
+  const { data: session } = useSession();
+
+  console.log(session);
+
+  const reloadSession = async () => {};
 
   return (
     <>
@@ -16,15 +20,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className=" flex h-screen w-screen border border-solid border-green-500">
-        {data?.user.username ? (
+        {session?.user.username ? (
           <Chat />
         ) : (
-          <Auth
-            session={null}
-            reloadSession={function (): Promise<void> {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <Auth session={session} reloadSession={reloadSession} />
         )}
       </main>
     </>
