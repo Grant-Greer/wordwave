@@ -6,7 +6,7 @@ import {
 import express from "express";
 import http from "http";
 
-async function startApolloServer(typeDefs, resolvers) {
+async function main(typeDefs, resolvers) {
   // Required logic for integrating with Express
   const app = express();
   // Our httpServer handles incoming requests to our Express app.
@@ -44,3 +44,5 @@ async function startApolloServer(typeDefs, resolvers) {
   );
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
+
+main().catch((err) => console.log(err));
