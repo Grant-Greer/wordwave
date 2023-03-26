@@ -1,7 +1,9 @@
+import { CreateusernameData, CreateusernameVariables } from "@/util/types";
+import { useMutation } from "@apollo/client";
 import { Session } from "next-auth";
-import google from "next-auth/providers/google";
 import { signIn } from "next-auth/react";
 import React, { FunctionComponent } from "react";
+import UserOperations from "../../graphql/operations/user";
 
 interface IAuthProps {
   session: Session | null;
@@ -14,18 +16,15 @@ export const Auth: FunctionComponent<IAuthProps> = ({
 }) => {
   const [username, setUsername] = React.useState("");
 
-  const onsubmit = async () => {
+  const [createUsername, { data, loading, error }] = useMutation<
+    CreateusernameData,
+    CreateusernameVariables
+  >(UserOperations.Mutations.createUsername);
+
+  const onSubmit = async () => {
+    if (!username) return;
     try {
-      const res = await fetch("/api/user", {
-        method: "POST",
-        body: JSON.stringify({ username }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res.status === 200) {
-        reloadSession();
-      }
+      await createUsername({ variables: { username } });
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +45,7 @@ export const Auth: FunctionComponent<IAuthProps> = ({
           />
           <button
             className="mr-1 mb-1 mt-4 h-10  w-44 self-center rounded bg-white py-2 px-4 font-bold text-sky-400 shadow-lg outline-none hover:shadow-xl focus:outline-none"
-            onClick={onsubmit}
+            onClick={onSubmit}
           >
             Save
           </button>
