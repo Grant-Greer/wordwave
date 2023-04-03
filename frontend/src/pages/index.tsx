@@ -7,14 +7,15 @@ import { NextPageContext, NextPage } from "next";
 export default function Home() {
   const { data: session } = useSession();
 
-  console.log(session);
-
-  const reloadSession = async () => {};
+  const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
+  };
 
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>WordWave</title>
         <meta name="description" content="WordWave Chat Application" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
